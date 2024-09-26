@@ -39,16 +39,30 @@ public partial class Player : CharacterBody3D
 
 	public Camera3D cam;
 
+	public MultiplayerSynchronizer ms;
+
+	private Vector3 syncPos = new Vector3(0,0,0);
+
 
     public override void _Ready()
-    {
+    {	
+		ms = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+		ms.SetMultiplayerAuthority(int.Parse(Name));
+		if (ms.GetMultiplayerAuthority() != Multiplayer.GetUniqueId()) {
+			return;
+		}
 		cam = head.GetChild<Camera3D>(0);
         Input.MouseMode = Input.MouseModeEnum.Captured;
 		currentAirJumps = airJumpCount;
+		cam.MakeCurrent();
     }
 
     public override void _UnhandledInput(InputEvent @event)
-    {
+    {	
+		if (ms.GetMultiplayerAuthority() != Multiplayer.GetUniqueId()) {
+			return;
+		}
+
         if (@event.GetType() == typeof(InputEventMouseMotion)) {
 			InputEventMouseMotion mMovement = (InputEventMouseMotion)@event;
 			head.RotateY(- mMovement.Relative.X * sensivivity);
@@ -60,6 +74,10 @@ public partial class Player : CharacterBody3D
 
     public override void _Process(double delta)
     {
+		if (ms.GetMultiplayerAuthority() != Multiplayer.GetUniqueId()) {
+			return;
+		}
+
         if (currentAirJumps < airJumpCount) {
 			if (IsOnFloor()) {
 				currentAirJumps = airJumpCount;
@@ -72,7 +90,12 @@ public partial class Player : CharacterBody3D
 
 
 	public override void _PhysicsProcess(double delta)
-	{
+	{	
+		if (ms.GetMultiplayerAuthority() != Multiplayer.GetUniqueId()) {
+			GlobalPosition = GlobalPosition.Lerp(syncPos, 0.5f);
+			return;
+		}
+
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
@@ -147,7 +170,7 @@ public partial class Player : CharacterBody3D
 		var vel_clamp = Mathf.Clamp(velocity.Length(), 0.5, Speed*2);
 		var tar_fov = baseFOV + FOVChange * vel_clamp;
 		cam.Fov = (float)Mathf.Lerp(cam.Fov, tar_fov,delta*12.0);
-
+		syncPos = GlobalPosition;
 	}
 
 	public void SlideFinished() {

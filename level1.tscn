@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdpl5124grfjj"]
+[gd_scene load_steps=10 format=3 uid="uid://bdpl5124grfjj"]
 
-[ext_resource type="PackedScene" uid="uid://c8uw8mu172k4f" path="res://player.tscn" id="1_tw0vo"]
+[ext_resource type="Script" path="res://Level1.cs" id="1_tq7nc"]
 [ext_resource type="Texture2D" uid="uid://cgc2y2opsapxp" path="res://kenney-prototype-textures-db6622fbe90621eed70a0b417ae8d97281f45e6c/addons/kenney_prototype_textures/dark/texture_01.png" id="1_v2mho"]
 [ext_resource type="Texture2D" uid="uid://bqmx4s7nlwa8o" path="res://kenney-prototype-textures-db6622fbe90621eed70a0b417ae8d97281f45e6c/addons/kenney_prototype_textures/purple/texture_02.png" id="2_4d2c4"]
+[ext_resource type="PackedScene" uid="uid://c8uw8mu172k4f" path="res://player.tscn" id="2_gxk3f"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2quep"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,8 +26,10 @@ uv1_triplanar = true
 albedo_texture = ExtResource("2_4d2c4")
 uv1_triplanar = true
 
-[node name="Node3D" type="Node3D"]
+[node name="Level1" type="Node3D"]
 transform = Transform3D(0.993417, 0, 0, 0, 0.993417, 0, 0, 0, 0.993417, 0, 0, 0)
+script = ExtResource("1_tq7nc")
+playerScene = ExtResource("2_gxk3f")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -48,5 +51,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.16721, 0.623706, 3.38553)
 size = Vector3(4.72815, 1.09467, 3.76758)
 material = SubResource("StandardMaterial3D_7ms6r")
 
-[node name="Player" parent="." instance=ExtResource("1_tw0vo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27153, 0)
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="0" type="Node3D" parent="SpawnPoints" groups=["Spawn Points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7453, 3.151, 0)
+
+[node name="1" type="Node3D" parent="SpawnPoints" groups=["Spawn Points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.81895, 0)

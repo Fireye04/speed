@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8uw8mu172k4f"]
+[gd_scene load_steps=7 format=3 uid="uid://c8uw8mu172k4f"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_78lo4"]
 
@@ -61,6 +61,11 @@ _data = {
 "slide": SubResource("Animation_peaci")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bov5s"]
+properties/0/path = NodePath(".:syncPos")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "anim")]
 script = ExtResource("1_78lo4")
 head = NodePath("nohead?")
@@ -81,3 +86,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.551966, 0)
 libraries = {
 "": SubResource("AnimationLibrary_gefuf")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_bov5s")
