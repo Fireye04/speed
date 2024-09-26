@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bdpl5124grfjj"]
+[gd_scene load_steps=11 format=3 uid="uid://bdpl5124grfjj"]
 
 [ext_resource type="Script" path="res://Scripts/Level1.cs" id="1_tq7nc"]
 [ext_resource type="Texture2D" uid="uid://cgc2y2opsapxp" path="res://Assets/kenney-prototype-textures-db6622fbe90621eed70a0b417ae8d97281f45e6c/addons/kenney_prototype_textures/dark/texture_01.png" id="1_v2mho"]
 [ext_resource type="Texture2D" uid="uid://bqmx4s7nlwa8o" path="res://Assets/kenney-prototype-textures-db6622fbe90621eed70a0b417ae8d97281f45e6c/addons/kenney_prototype_textures/purple/texture_02.png" id="2_4d2c4"]
 [ext_resource type="PackedScene" uid="uid://c8uw8mu172k4f" path="res://Scenes/player.tscn" id="2_gxk3f"]
+[ext_resource type="PackedScene" uid="uid://c723f4adux1s1" path="res://Scenes/testdummy.tscn" id="5_wt581"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2quep"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -58,3 +59,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7453, 3.151, 0)
 
 [node name="1" type="Node3D" parent="SpawnPoints" groups=["Spawn Points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54758, 0)
+
+[node name="Testdummy" parent="." instance=ExtResource("5_wt581")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54174, 1.51091, 0.412016)

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 
 public partial class Player : CharacterBody3D
@@ -39,6 +40,12 @@ public partial class Player : CharacterBody3D
 
 	[Export]
 	public AnimationPlayer weaponAnim;
+
+	[Export]
+	public Area3D atkArea;
+	
+	[Export]
+	public int atkDmg = 25;
 
 	public Camera3D cam;
 
@@ -193,6 +200,15 @@ public partial class Player : CharacterBody3D
 
 	public void endSuperJump(){
 		superjump = false;
+	}
+
+	public void hit(){
+		foreach(var obj in atkArea.GetOverlappingBodies()){
+			try {
+				IDamageable dmgObj = (IDamageable)obj;
+				dmgObj.Damage(atkDmg);
+			} catch{}
+		}
 	}
 
 	private static Vector3 Headbob(float loc) {
