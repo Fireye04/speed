@@ -1,0 +1,189 @@
+[gd_scene load_steps=12 format=3 uid="uid://c8uw8mu172k4f"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_6647v"]
+[ext_resource type="PackedScene" uid="uid://e2f2henyi0s8" path="res://Assets/bonkstik.glb" id="2_scm18"]
+[ext_resource type="Animation" uid="uid://ck6v7fptr5ycy" path="res://bonk.res" id="3_lptgn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vgdtc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uege4"]
+size = Vector3(1, 1, 1.80713)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mh611"]
+_data = {
+"bonk": ExtResource("3_lptgn")
+}
+
+[sub_resource type="Animation" id="Animation_kg2rn"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"SlideFinished"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"endSuperJump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_peaci"]
+resource_name = "slide"
+length = 0.5
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.05, 1, 1, 0.5, 1, 0.366667, 1, 1, 0.5, 1, 0.5, 1, 1, 1, 1)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"SlideFinished"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"startSuperJump"
+}, {
+"args": [],
+"method": &"endSuperJump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_hqkq1"]
+resource_name = "unslide"
+length = 0.1
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 0.5, 1, 0.1, 1, 1, 1, 1)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"endSuperJump"
+}, {
+"args": [],
+"method": &"SlideFinished"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gefuf"]
+_data = {
+"RESET": SubResource("Animation_kg2rn"),
+"slide": SubResource("Animation_peaci"),
+"unslide": SubResource("Animation_hqkq1")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bov5s"]
+properties/0/path = NodePath(".:syncPos")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("nohead?/Camera3D:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("nohead?:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("AnimationPlayer:current_animation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "anim", "weaponAnim")]
+script = ExtResource("1_6647v")
+head = NodePath("nohead?")
+anim = NodePath("AnimationPlayer")
+weaponAnim = NodePath("nohead?/Camera3D/Weapon/AnimationPlayer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_vgdtc")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1.99181, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="nohead?" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.551966, 0)
+
+[node name="Camera3D" type="Camera3D" parent="nohead?"]
+
+[node name="Weapon" type="Node3D" parent="nohead?/Camera3D"]
+
+[node name="bonkstik" parent="nohead?/Camera3D/Weapon" instance=ExtResource("2_scm18")]
+transform = Transform3D(0.0210315, -0.0687908, 0.0694658, 0.0956305, 0.0292372, 0, -0.0203099, 0.0664305, 0.071934, 0.807, -0.392, -0.687)
+
+[node name="Area3D" type="Area3D" parent="nohead?/Camera3D/Weapon"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="nohead?/Camera3D/Weapon/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.43977, -1.46042)
+shape = SubResource("BoxShape3D_uege4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="nohead?/Camera3D/Weapon"]
+libraries = {
+"": SubResource("AnimationLibrary_mh611")
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gefuf")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_bov5s")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
