@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8uw8mu172k4f"]
+[gd_scene load_steps=8 format=3 uid="uid://c8uw8mu172k4f"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_78lo4"]
+[ext_resource type="PackedScene" uid="uid://dhbr2v7uas3v4" path="res://bonkstik.glb" id="2_hrd34"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vgdtc"]
 
@@ -91,3 +92,6 @@ libraries = {
 replication_interval = 0.1
 delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_bov5s")
+
+[node name="bonkstik" parent="." instance=ExtResource("2_hrd34")]
+transform = Transform3D(-0.000408177, -0.0478152, 0.0146129, 0.0499805, -2.18472e-09, 0.00139608, -0.00133508, 0.0146186, 0.0477966, 0.395, 0.34, -0.325)
