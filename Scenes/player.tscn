@@ -7,7 +7,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vgdtc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uege4"]
-size = Vector3(2.4187, 1, 1.80713)
+size = Vector3(1.3244, 1, 1.80713)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mh611"]
 _data = {
@@ -169,7 +169,7 @@ transform = Transform3D(0.0210315, -0.0687908, 0.0694658, 0.0956305, 0.0292372, 
 [node name="Area3D" type="Area3D" parent="nohead?/Camera3D/Weapon"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="nohead?/Camera3D/Weapon/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.164917, -0.43977, -1.46042)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03953, 0.612627, -1.6896)
 shape = SubResource("BoxShape3D_uege4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="nohead?/Camera3D/Weapon"]

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 
-public partial class Player : CharacterBody3D
+public partial class Player : CharacterBody3D, IDamageable
 {
 	public const float Speed = 8.0f;
 
@@ -53,6 +53,11 @@ public partial class Player : CharacterBody3D
 
 	private Vector3 syncPos = new Vector3(0,0,0);
 
+	[Export]
+	public int maxHealth = 100;
+
+	public int health;
+
 
     public override void _Ready()
     {	
@@ -65,6 +70,7 @@ public partial class Player : CharacterBody3D
         Input.MouseMode = Input.MouseModeEnum.Captured;
 		currentAirJumps = airJumpCount;
 		cam.MakeCurrent();
+		health = maxHealth;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -204,9 +210,18 @@ public partial class Player : CharacterBody3D
 
 	public void hit(){
 		foreach(var obj in atkArea.GetOverlappingBodies()){
+			
+			try {
+				Player pObj = (Player) obj;
+				if(pObj.Name == Name) {
+					continue;
+				}
+			}catch {}
+
 			try {
 				IDamageable dmgObj = (IDamageable)obj;
 				dmgObj.Damage(atkDmg);
+
 			} catch{}
 		}
 	}
@@ -217,4 +232,25 @@ public partial class Player : CharacterBody3D
 		pos.X = Mathf.Cos(loc * bobFreq/2) * bobAmp;	
 		return pos;
 	}
+
+    public void Damage(int amount)
+    {
+        health -= amount;
+		if (health <= 0) {
+			GD.Print(Name + "died");
+		} else {
+			GD.Print(Name + "hurt");
+		}
+    }
+
+    public void Heal(int amount)
+    {
+        health += amount;
+		if (health > maxHealth) {
+			GD.Print("full health");
+			health = maxHealth;
+		} else {
+			GD.Print("heal");
+		}
+    }
 }
