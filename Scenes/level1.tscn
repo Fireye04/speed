@@ -53,12 +53,13 @@ size = Vector3(4.72815, 1.09467, 3.76758)
 material = SubResource("StandardMaterial3D_7ms6r")
 
 [node name="SpawnPoints" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8012, -3.93952)
 
 [node name="0" type="Node3D" parent="SpawnPoints" groups=["Spawn Points"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7453, 3.151, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7212, 3.151, -0.00222063)
 
 [node name="1" type="Node3D" parent="SpawnPoints" groups=["Spawn Points"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.54758, 0)
+transform = Transform3D(0.999225, 0, 0.0393819, 0, 1, 0, -0.0393819, 0, 0.999225, 6.30266, 1.89113, -1.08672)
 
 [node name="Testdummy" parent="." instance=ExtResource("5_wt581")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54174, 1.51091, 0.412016)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.38895, 8.26863)

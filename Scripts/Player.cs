@@ -58,6 +58,10 @@ public partial class Player : CharacterBody3D, IDamageable
 
 	public int health;
 
+	public Vector3 knockback = Vector3.Zero;
+
+	[Export]
+	public float kbStrength = 8f;
 
     public override void _Ready()
     {	
@@ -100,10 +104,6 @@ public partial class Player : CharacterBody3D, IDamageable
 			}
 		}
     }
-
-
-    
-
 
 	public override void _PhysicsProcess(double delta)
 	{	
@@ -211,6 +211,7 @@ public partial class Player : CharacterBody3D, IDamageable
 	public void hit(){
 		foreach(var obj in atkArea.GetOverlappingBodies()){
 			
+			// Don't hit yourself; you're a good person <3
 			try {
 				Player pObj = (Player) obj;
 				if(pObj.Name == Name) {
@@ -220,7 +221,8 @@ public partial class Player : CharacterBody3D, IDamageable
 
 			try {
 				IDamageable dmgObj = (IDamageable)obj;
-				dmgObj.Damage(atkDmg);
+				var kbdir = GlobalPosition.DirectionTo(obj.GlobalPosition);
+				dmgObj.Damage(atkDmg, kbdir, kbStrength);
 
 			} catch{}
 		}
@@ -233,13 +235,15 @@ public partial class Player : CharacterBody3D, IDamageable
 		return pos;
 	}
 
-    public void Damage(int amount)
+    public void Damage(int amount, Vector3 kb, float Str)
     {
         health -= amount;
+		knockback = kb * (Str + (maxHealth-health));
+
 		if (health <= 0) {
-			GD.Print(Name + "died");
+			GD.Print(Name + " died");
 		} else {
-			GD.Print(Name + "hurt");
+			GD.Print(Name + ": " + health);
 		}
     }
 

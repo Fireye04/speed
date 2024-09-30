@@ -142,6 +142,12 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("AnimationPlayer:current_animation")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("nohead?/Camera3D/Weapon/AnimationPlayer:current_animation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:health")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "anim", "weaponAnim", "atkArea")]
 script = ExtResource("1_6647v")
