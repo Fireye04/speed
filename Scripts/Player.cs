@@ -121,7 +121,6 @@ public partial class Player : CharacterBody3D, IDamageable
 		}
 
 		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
 		Vector3 direction = (head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
@@ -183,7 +182,18 @@ public partial class Player : CharacterBody3D, IDamageable
 			velocity.X = (float)Mathf.Lerp(velocity.X, direction.X * Speed, delta*2.0); 
 			velocity.Z = (float)Mathf.Lerp(velocity.Z, direction.Z * Speed, delta*2.0);
 		}
-			
+
+        if (knockback != Vector3.Zero) {
+			// Apply knockback
+			velocity = Vector3.Zero + knockback;
+
+			// Reduce knockback and cut it off when it gets small enough
+			if (Math.Abs(knockback.X) > 0.5 && Math.Abs(knockback.Y) > 0.5 && Math.Abs(knockback.Z) > 0.5) {
+				knockback = Vector3.Zero;
+			} else {
+				knockback = LerpV3(knockback, Vector3.Zero, 0.1f);
+			}
+		}
 		
 		Velocity = velocity;
 		MoveAndSlide();
@@ -193,6 +203,10 @@ public partial class Player : CharacterBody3D, IDamageable
 		var tar_fov = baseFOV + FOVChange * vel_clamp;
 		cam.Fov = (float)Mathf.Lerp(cam.Fov, tar_fov,delta*12.0);
 		syncPos = GlobalPosition;
+	}
+
+    public Vector3 LerpV3(Vector3 from, Vector3 to, float inc) {
+		return new Vector3(Mathf.Lerp(from.X, to.X, inc), Mathf.Lerp(from.Y, to.Y, inc), Mathf.Lerp(from.Z, to.Z, inc));
 	}
 
 	public void SlideFinished() {
@@ -238,7 +252,9 @@ public partial class Player : CharacterBody3D, IDamageable
     public void Damage(int amount, Vector3 kb, float Str)
     {
         health -= amount;
-		knockback = kb * (Str + (maxHealth-health));
+		var kbFinal = kb * (Str);
+		kbFinal.Y += 10;
+		knockback = kbFinal;
 
 		if (health <= 0) {
 			GD.Print(Name + " died");

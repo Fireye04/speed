@@ -189,8 +189,8 @@ libraries = {
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.1
-delta_interval = 0.1
+replication_interval = 0.05
+delta_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_bov5s")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

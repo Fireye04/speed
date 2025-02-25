@@ -34,6 +34,7 @@ public partial class Testdummy : CharacterBody3D, IDamageable
 				knockback = LerpV3(knockback, Vector3.Zero, 0.1f);
 			}
 		} else {
+
 			if (!IsOnFloor())
 			{
 				velocity += GetGravity() * (float)delta;
@@ -42,13 +43,8 @@ public partial class Testdummy : CharacterBody3D, IDamageable
 			}
 		}
 
-		
-
-		
 		Velocity = velocity;
 		MoveAndSlide();
-		
-		
 		
     }
 

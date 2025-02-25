@@ -51,6 +51,14 @@ public partial class MultiplayerController : Control
 
 	public void _on_host_button_down(){ 
 		peer = new ENetMultiplayerPeer();
+        var portIn = getnode<lineEdit>("%PortInput").text;
+        if (portIn != "8910"){
+            try {
+                port = int.parse(portIn);
+            } catch {
+                gd.print("whoopsie! provided port is not a number!") ;
+            }
+        }
 		var error = peer.CreateServer(port, 4);
 		if (error != Error.Ok) {
 			GD.Print("Hosting has failed: " + error.ToString());
@@ -64,7 +72,21 @@ public partial class MultiplayerController : Control
 
 	public void _on_join_button_down(){ 
 		peer = new ENetMultiplayerPeer();
-		peer.CreateClient(address, port);
+        var portIn = getnode<lineEdit>("%PortInput").text;
+        var addressIn = getnode<lineEdit>("%AddressInput").text;
+        if (portIn != "8910"){
+            try {
+                port = int.parse(portIn);
+            } catch {
+                gd.print("whoopsie! provided port is not a number!") ;
+            }
+        }
+        address = addressIn;
+		var error = peer.CreateClient(address, port);
+        if (error != Error.Ok) {
+			GD.Print("Failed to join: " + error.ToString());
+			return;
+		}
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 		Multiplayer.MultiplayerPeer = peer;
 		GD.Print("Success! Joining game...");
