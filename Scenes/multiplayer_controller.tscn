@@ -42,8 +42,8 @@ text = "Server Address"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "127.0.0.1"
-placeholder_text = "127.0.0.1"
+text = "0.0.0.0"
+placeholder_text = "0.0.0.0"
 
 [node name="Port" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

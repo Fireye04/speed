@@ -9,7 +9,7 @@ public partial class MultiplayerController : Control
 	private int port = 8910;
 
 	[Export]
-	private string address = "127.0.0.1";
+	private string address = "0.0.0.0";
 
 	[Export]
 	public PackedScene startScene;
@@ -51,12 +51,14 @@ public partial class MultiplayerController : Control
 
 	public void _on_host_button_down(){ 
 		peer = new ENetMultiplayerPeer();
-        var portIn = getnode<lineEdit>("%PortInput").text;
+        var portIn = GetNode<LineEdit>("%PortInput").Text;
+        var addressIn = GetNode<LineEdit>("%AddressInput").Text;
+        peer.SetBindIP(addressIn);
         if (portIn != "8910"){
             try {
-                port = int.parse(portIn);
+                port = int.Parse(portIn);
             } catch {
-                gd.print("whoopsie! provided port is not a number!") ;
+                GD.Print("whoopsie! provided port is not a number!") ;
             }
         }
 		var error = peer.CreateServer(port, 4);
@@ -72,13 +74,13 @@ public partial class MultiplayerController : Control
 
 	public void _on_join_button_down(){ 
 		peer = new ENetMultiplayerPeer();
-        var portIn = getnode<lineEdit>("%PortInput").text;
-        var addressIn = getnode<lineEdit>("%AddressInput").text;
+        var portIn = GetNode<LineEdit>("%PortInput").Text;
+        var addressIn = GetNode<LineEdit>("%AddressInput").Text;
         if (portIn != "8910"){
             try {
-                port = int.parse(portIn);
+                port = int.Parse(portIn);
             } catch {
-                gd.print("whoopsie! provided port is not a number!") ;
+                GD.Print("whoopsie! provided port is not a number!") ;
             }
         }
         address = addressIn;
